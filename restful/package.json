@@ -1,0 +1,14 @@
+{
+  "name": "restful",
+  "version": "1.0.0",
+  "description": "api rest do curso js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tony filho",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
