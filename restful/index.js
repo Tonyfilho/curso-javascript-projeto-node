@@ -1,11 +1,12 @@
-const express= require('express'); //carregando modulo http
-const consign = require('consign'); //carregando Consign gerencia as ROTAS
+//  import * as consign from '/node_modules/consign';
+const express = require("express"); //carregando modulo http
+const consign = require("consign"); //carregando Consign gerencia as ROTAS
 
 /**Cria a var APP e o express ja traz o metodo GET */
 let app = express();
 /** Falamos para CONSIGN incluir o diretorio das ROTAS chamado 
  * ROUTES e falar em qual VAR, neste caso APP*/
-consign().include('routes').into(app);
+consign().include('/routes').into(app);
 
 
 
