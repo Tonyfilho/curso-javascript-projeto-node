@@ -1,13 +1,11 @@
 const express= require('express'); //carregando modulo http
-const routerIndex = require('./routes/index');
-const routerUsers = require('./routes/users');
+const consign = require('consign'); //carregando Consign gerencia as ROTAS
 
 /**Cria a var APP e o express ja traz o metodo GET */
 let app = express();
-
-/** Depois de feitas as Rotas, aqui no App, passamos a variaveis */
-app.use('/', routerIndex);
-app.use('/users', routerUsers);
+/** Falamos para CONSIGN incluir o diretorio das ROTAS chamado 
+ * ROUTES e falar em qual VAR, neste caso APP*/
+consign().include('routes').into(app);
 
 
 
