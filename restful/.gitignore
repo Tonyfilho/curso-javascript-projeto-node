@@ -1,2 +1,4 @@
 # Para todos os arquivos e sub-pastas localizados na pasta node_modules/
 node_modules/
+# Para todos os arquivos e sub-pastas localizados na pasta _routes_Dummy/
+_routes_Dummy/
