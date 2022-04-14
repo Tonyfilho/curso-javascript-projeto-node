@@ -17,8 +17,12 @@ app.use(bodyParser.json());
 
 
 /** Falamos para CONSIGN incluir o diretorio das ROTAS chamado 
- * ROUTES e falar em qual VAR, neste caso APP*/
-consign().include('/routes').into(app);
+ * 1º ROUTES e falar em qual VAR, neste caso APP
+ * 2º UTILS é o diretorio onde tem a função de errors, tem que incluida no 
+ * CONSIGN. Todo arquivo de utilidade posto agora é carregado como Modulo.
+ * */
+
+consign().include('/routes').include('/utils').into(app);
 
 
 

@@ -11,19 +11,24 @@ let db = new NeDB({
 
 /** aqui agora passamos a Var APP como paramentro de uma função do CONSIGN com o nome da todas as rotas*/
 module.exports = (app) => {
-  app.get("/users", (req, res) => {
-    res.statusCode = 200; //
-    res.setHeader("Content-Type", "application/json");
-    res.json({
-      users: [
-        {
-          name: "tony",
-          email: "tony@gmail.com",
-          id: 1,
-        },
-      ],
-    });
+  const routes = '/users';
+  /**Find é o GetAll, sem paramentros ele traz tudo, caso queira algum item passe o Objeto desejado
+   * 1º Sort orderna o resultado  1 é ASC e -1 é DESC, neste caso pela Coluna NOME:1
+   * 2º Exec, onde temos 2 paramentros, err e success
+   */
+  app.get(routes, (req, res) => {
+    db.find({})
+      .sort({ name: 1 })
+      .exec((err, success) => {
+        if (err) {
+        app.utils.errors.send(err, req, res, 400, 'Error no Find All');
+        } else {       
+          res.json({users: success});
+          res.status(200).json;
+        }
+      });
   });
+
   /**3º Usaremos a VAR DB aqui no POST para salvar,
    * usando o metodo INSERT()
    * dentro INSERT(), temos alguns paramentros
@@ -33,21 +38,22 @@ module.exports = (app) => {
    * com um rash que é o ID.
    * 3º Temos que fz o If e Else das verificações
    */
-  app.post("/users", (req, res) => {
-      db.insert(req.body, (err, success) => {
+  app.post(routes, (req, res) => {
+    db.insert(req.body, (err, success) => {
       if (err) {
-        console.error(`Error Na DB ${err}`); //console do error
-        res.status(400).json({
-          error: err,
-        }); //um status code do error
+        // console.error(`Error Na DB ${err}`); //console do error
+        // res.status(400).json({
+        //   error: err,
+        // }); //um status code do error
+        app.utils.errors.send(err, req, res, 400, 'Error Post');
       } else {
         /** e mandamos um JSON com o success que foi salvo na DB */
         res.status(200).json(success);
-        console.log("dentro do else ", JSON.parse(success));
       }
     });
   });
-  app.get("/users/admin", (req, res) => {
+
+  app.get(`${routes}/admin`, (req, res) => {
     res.statusCode = 200; //
     res.setHeader("Content-Type", "application/json");
     res.json({
