@@ -27,6 +27,11 @@ module.exports = (app) => {
         });
     
     });
+    app.post('/users',(req, res) => {
+        res.statusCode = 200; //        
+        res.json(req.body);
+    
+    });
 
 
 };
