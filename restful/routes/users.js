@@ -75,18 +75,32 @@ module.exports = (app) => {
       }
     });
   });
+  /** FAzendo o Update dos dados, usaremos o ID, mas ao invez de usar o GET usaremos o PUT
+   * 1º usaremos o put
+   * 2º no Objecto DB, usaremos o UPDATE
+   * 3º o ID é o 1º Paramentro
+   * 4º o req.body é 2º paramentro do Update. É onde vem os dados pela body
+   * 5º o Err é o 3º paramentro do Update e lança uma função caso haja erro.
+   * 
+   */
+  routeId.put((req, res) => {
+    db.update({ _id: req.params.id }, req.body, err => {
+      if (err) {
+        app.utils.errors.send(
+          err,
+          req,
+          res,
+          400,
+          "erro ao fazer o update"
+        );
+      } else {
+        // res.status(200).json(Object.assign(req.params, req.body));
+        res.status(200).json([...req.params, ...req.body]);
+      }
+    });
+  });
 
-  // app.get(`${routes}/admin`, (req, res) => {
-  //   res.statusCode = 200; //
-  //   res.setHeader("Content-Type", "application/json");
-  //   res.json({
-  //     admins: [
-  //       {
-  //         name: "tony",
-  //         email: "tony@gmail.com",
-  //         id: 1,
-  //       },
-  //     ],
-  //   });
-  // });
+
+
+
 }; //end class
