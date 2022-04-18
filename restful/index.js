@@ -2,6 +2,7 @@
 const express = require("express"); //carregando modulo http
 const consign = require("consign"); //carregando Consign gerencia as ROTAS
 const bodyParser = require("body-parser");//carregando o BodyPaser para recebermos os POST
+const expressValidator = require("express-validator"); //Carregando modulo do express-Validator
 
 /**Cria a var APP e o express ja traz o metodo GET */
 let app = express();
@@ -13,6 +14,7 @@ let app = express();
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
+app.use(expressValidator());//Colocamos o Modulo dentro da var App, ja envocanto tudo que tem no modulo
 
 
 

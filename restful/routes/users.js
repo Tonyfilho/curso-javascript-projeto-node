@@ -39,6 +39,11 @@ module.exports = (app) => {
    * 3º Temos que fz o If e Else das verificações
    */
   app.post(routes, (req, res) => {
+    /**Usando o Modulo de Validação criado no utils, caso haja erros, retornará false e lançará um error */
+    if (app.utils.validator.validaUser(app, req, res)) {
+      return false;
+    }
+
     db.insert(req.body, (err, success) => {
       if (err) {
         // console.error(`Error Na DB ${err}`); //console do error
@@ -81,48 +86,36 @@ module.exports = (app) => {
    * 3º o ID é o 1º Paramentro
    * 4º o req.body é 2º paramentro do Update. É onde vem os dados pela body
    * 5º é o Função de CallBack o Err é o 3º paramentro do Update e lança uma função caso haja erro.
-   * 
+   *
    */
   routeId.put((req, res) => {
-    db.update({ _id: req.params.id }, req.body, err => {
+    /**Usando o Modulo de Validação criado no utils, caso haja erros, retornará false e lançará um error */
+    if (app.utils.validator.validaUser(app, req, res)) {
+      return false;
+    }
+
+    db.update({ _id: req.params.id }, req.body, (err) => {
       if (err) {
-        app.utils.errors.send(
-          err,
-          req,
-          res,
-          400,
-          "erro ao fazer o update"
-        );
+        app.utils.errors.send(err, req, res, 400, "erro ao fazer o update");
       } else {
         res.status(200).json(Object.assign(req.params, req.body));
         // res.status(200).json([...req.params, ...req.body]) não aceita ;
       }
     });
   });
- /**Fazendo o Delete dos dados. usaremos o ID e usaremos o DELETE do NODE e o REMOVE DB.
-  * 1º Paramentro é onde passamos o Objeto do ID, ou seja o Registro de Remoção.
-  * 2º Paramentro é Opcional, quando temos varios registro para ser removido
-  * 3º Paramentro é o Função de CallBack, onde passamos o erro ,caso haja ou outros
-  */
+  /**Fazendo o Delete dos dados. usaremos o ID e usaremos o DELETE do NODE e o REMOVE DB.
+   * 1º Paramentro é onde passamos o Objeto do ID, ou seja o Registro de Remoção.
+   * 2º Paramentro é Opcional, quando temos varios registro para ser removido
+   * 3º Paramentro é o Função de CallBack, onde passamos o erro ,caso haja ou outros
+   */
 
- routeId.delete((req, res) => {
-      db.remove({_id: req.params.id}, {}, err => {
-        if (err) {
-          app.utils.errors.send(
-            err,
-            req,
-            res,
-            400,
-            "erro ao fazer o update"
-          );
-        } else {          
-          res.status(200).json(req.params); // retornaremos o ID de que foi excluido
-        }
-
-      });
-
- });
-
-
-
+  routeId.delete((req, res) => {
+    db.remove({ _id: req.params.id }, {}, (err) => {
+      if (err) {
+        app.utils.errors.send(err, req, res, 400, "erro ao fazer o update");
+      } else {
+        res.status(200).json(req.params); // retornaremos o ID de que foi excluido
+      }
+    });
+  });
 }; //end class
