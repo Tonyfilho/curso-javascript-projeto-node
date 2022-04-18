@@ -80,7 +80,7 @@ module.exports = (app) => {
    * 2º no Objecto DB, usaremos o UPDATE
    * 3º o ID é o 1º Paramentro
    * 4º o req.body é 2º paramentro do Update. É onde vem os dados pela body
-   * 5º o Err é o 3º paramentro do Update e lança uma função caso haja erro.
+   * 5º é o Função de CallBack o Err é o 3º paramentro do Update e lança uma função caso haja erro.
    * 
    */
   routeId.put((req, res) => {
@@ -94,12 +94,34 @@ module.exports = (app) => {
           "erro ao fazer o update"
         );
       } else {
-        // res.status(200).json(Object.assign(req.params, req.body));
-        res.status(200).json([...req.params, ...req.body]);
+        res.status(200).json(Object.assign(req.params, req.body));
+        // res.status(200).json([...req.params, ...req.body]) não aceita ;
       }
     });
   });
+ /**Fazendo o Delete dos dados. usaremos o ID e usaremos o DELETE do NODE e o REMOVE DB.
+  * 1º Paramentro é onde passamos o Objeto do ID, ou seja o Registro de Remoção.
+  * 2º Paramentro é Opcional, quando temos varios registro para ser removido
+  * 3º Paramentro é o Função de CallBack, onde passamos o erro ,caso haja ou outros
+  */
 
+ routeId.delete((req, res) => {
+      db.remove({_id: req.params.id}, {}, err => {
+        if (err) {
+          app.utils.errors.send(
+            err,
+            req,
+            res,
+            400,
+            "erro ao fazer o update"
+          );
+        } else {          
+          res.status(200).json(req.params); // retornaremos o ID de que foi excluido
+        }
+
+      });
+
+ });
 
 
 
